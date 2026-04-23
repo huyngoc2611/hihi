@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huy Yêu Duyên Ú</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse at 20% 20%, #FFE4EC 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, #FFD4E0 0%, transparent 50%),
+      linear-gradient(135deg, #FFF5F8 0%, #FFE8EF 50%, #FFD8E4 100%);
+    overflow: hidden;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* ============ ROSE GARDEN ============ */
+  .rose {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+    animation: bloom 3s cubic-bezier(0.25, 1.5, 0.5, 1) forwards;
+    transform-origin: center;
+  }
+
+  .rose svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 12px rgba(180, 30, 60, 0.25));
+  }
+
+  /* Bloom: scale from 0 → 1.1 → 1, rotate slight, fade in */
+  @keyframes bloom {
+    0% {
+      opacity: 0;
+      transform: scale(0) rotate(-180deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15) rotate(-20deg);
+    }
+    70% {
+      transform: scale(0.95) rotate(5deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  /* Subtle sway after bloom */
+  .rose.bloomed {
+    animation: sway 4s ease-in-out infinite;
+  }
+
+  @keyframes sway {
+    0%, 100% { transform: rotate(-4deg) scale(1); }
+    50% { transform: rotate(4deg) scale(1.03); }
+  }
+
+  /* ============ FALLING PETALS ============ */
+  .petal {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(ellipse at 30% 30%, #FF8FA8 0%, #D4436A 70%);
+    border-radius: 50% 0 50% 50%;
+    opacity: 0;
+    animation: fall 8s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes fall {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px) translateX(0) rotate(0deg);
+    }
+    10% { opacity: 0.9; }
+    90% { opacity: 0.6; }
+    100% {
+      opacity: 0;
+      transform: translateY(110vh) translateX(80px) rotate(540deg);
+    }
+  }
+
+  /* ============ TEXT ============ */
+  .message-wrap {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    opacity: 0;
+    animation: revealMessage 1.5s ease-out 3s forwards;
+  }
+
+  @keyframes revealMessage {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .prelude {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 600;
+    color: #8B2348;
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: fadeInSimple 1s ease-out 3.3s forwards;
+  }
+
+  .main-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(52px, 9vw, 120px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    filter: drop-shadow(0 8px 24px rgba(141, 11, 40, 0.25));
+    margin-bottom: 8px;
+  }
+
+  /* Mỗi .word có gradient riêng — apply background-clip TỪNG CHỮ để không bị nuốt */
+  .main-text .word {
+    display: inline-block;
+    opacity: 0;
+    animation: wordAppear 0.7s cubic-bezier(0.2, 1.3, 0.5, 1) forwards;
+    background: linear-gradient(135deg, #D4436A 0%, #B01E3F 40%, #8D0B28 70%, #5C0718 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin: 0 6px;
+  }
+
+  .main-text .word:nth-child(1) {
+    animation-delay: 3.5s;
+  }
+  .main-text .word:nth-child(2) {
+    animation-delay: 3.9s;
+    background: linear-gradient(135deg, #FF6B95 0%, #D4436A 50%, #B01E3F 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .main-text .word:nth-child(3) {
+    animation-delay: 4.3s;
+  }
+  .main-text .word:nth-child(4) {
+    animation-delay: 4.7s;
+    font-family: 'Dancing Script', cursive;
+    font-style: normal;
+    background: linear-gradient(135deg, #FF8FA8 0%, #D4436A 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes wordAppear {
+    0% {
+      opacity: 0;
+      transform: translateY(40px) scale(0.7) rotate(-5deg);
+    }
+    60% {
+      transform: translateY(-8px) scale(1.1) rotate(2deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1) rotate(0deg);
+    }
+  }
+
+  @keyframes fadeInSimple {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .heart-decor {
+    font-size: clamp(24px, 3vw, 36px);
+    color: #D4436A;
+    opacity: 0;
+    animation: heartBeat 1.2s ease-in-out 5.2s infinite;
+  }
+
+  @keyframes heartBeat {
+    0%, 100% {
+      opacity: 0.7;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+
+  /* Sparkles */
+  .sparkle {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px white;
+    opacity: 0;
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  @keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Falling petals background -->
+<div class="petal" style="left: 5%; animation-delay: 0s;"></div>
+<div class="petal" style="left: 15%; animation-delay: 1.5s;"></div>
+<div class="petal" style="left: 25%; animation-delay: 3s;"></div>
+<div class="petal" style="left: 38%; animation-delay: 0.8s;"></div>
+<div class="petal" style="left: 48%; animation-delay: 2.5s;"></div>
+<div class="petal" style="left: 58%; animation-delay: 4s;"></div>
+<div class="petal" style="left: 68%; animation-delay: 1s;"></div>
+<div class="petal" style="left: 78%; animation-delay: 3.5s;"></div>
+<div class="petal" style="left: 88%; animation-delay: 2s;"></div>
+<div class="petal" style="left: 95%; animation-delay: 5s;"></div>
+
+<!-- Rose garden (generated by JS to scatter randomly) -->
+<div id="garden"></div>
+
+<!-- Message -->
+<div class="message-wrap">
+  <div class="prelude">~ với tất cả trái tim ~</div>
+  <div class="main-text">
+    <span class="word">Huy</span>
+    <span class="word">Yêu</span>
+    <span class="word">Duyên</span>
+    <span class="word">Ú</span>
+  </div>
+  <div class="heart-decor">♥ ♥ ♥</div>
+</div>
+
+<script>
+  // Scatter roses around the screen
+  const garden = document.getElementById('garden');
+  const roseCount = 22;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  // Safe zones để không đè lên text (giữa màn hình)
+  const safeCenterX = vw / 2;
+  const safeCenterY = vh / 2;
+  const safeRadiusX = Math.min(vw * 0.35, 420);
+  const safeRadiusY = Math.min(vh * 0.25, 220);
+
+  const roseSVG = (colorPrimary, colorSecondary, colorCenter) => `
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="petal1-${colorPrimary.replace('#','')}" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="${colorSecondary}"/>
+          <stop offset="100%" stop-color="${colorPrimary}"/>
+        </radialGradient>
+      </defs>
+      <!-- outer petals -->
+      <ellipse cx="50" cy="25" rx="22" ry="28" fill="url(#petal1-${colorPrimary.replace('#','')})" transform="rotate(0 50 50)" opacity="0.9"/>
+      <ellipse cx="50" cy="25" rx="22" ry="28" fill="url(#petal1-${colorPrimary.replace('#','')})" transform="rotate(72 50 50)" opacity="0.9"/>
+      <ellipse cx="50" cy="25" rx="22" ry="28" fill="url(#petal1-${colorPrimary.replace('#','')})" transform="rotate(144 50 50)" opacity="0.9"/>
+      <ellipse cx="50" cy="25" rx="22" ry="28" fill="url(#petal1-${colorPrimary.replace('#','')})" transform="rotate(216 50 50)" opacity="0.9"/>
+      <ellipse cx="50" cy="25" rx="22" ry="28" fill="url(#petal1-${colorPrimary.replace('#','')})" transform="rotate(288 50 50)" opacity="0.9"/>
+      <!-- inner petals -->
+      <ellipse cx="50" cy="35" rx="14" ry="18" fill="${colorPrimary}" transform="rotate(36 50 50)" opacity="0.95"/>
+      <ellipse cx="50" cy="35" rx="14" ry="18" fill="${colorPrimary}" transform="rotate(108 50 50)" opacity="0.95"/>
+      <ellipse cx="50" cy="35" rx="14" ry="18" fill="${colorPrimary}" transform="rotate(180 50 50)" opacity="0.95"/>
+      <ellipse cx="50" cy="35" rx="14" ry="18" fill="${colorPrimary}" transform="rotate(252 50 50)" opacity="0.95"/>
+      <ellipse cx="50" cy="35" rx="14" ry="18" fill="${colorPrimary}" transform="rotate(324 50 50)" opacity="0.95"/>
+      <!-- center bud -->
+      <circle cx="50" cy="50" r="10" fill="${colorCenter}"/>
+      <circle cx="48" cy="48" r="4" fill="${colorSecondary}" opacity="0.7"/>
+    </svg>
+  `;
+
+  // Color palettes: deep red, pink, soft pink
+  const palettes = [
+    { primary: '#B01E3F', secondary: '#FF6B8A', center: '#8D0B28' }, // deep rose
+    { primary: '#D4436A', secondary: '#FFB3C6', center: '#A02850' }, // pink rose
+    { primary: '#FF8FA8', secondary: '#FFD4E0', center: '#D4436A' }, // soft pink
+    { primary: '#8D0B28', secondary: '#D4436A', center: '#5C0718' }, // burgundy
+    { primary: '#E85A7A', secondary: '#FFC4D4', center: '#B01E3F' }, // bright pink
+  ];
+
+  for (let i = 0; i < roseCount; i++) {
+    let x, y, inSafeZone;
+    let attempts = 0;
+    do {
+      x = Math.random() * (vw - 120);
+      y = Math.random() * (vh - 120);
+      // Check if in safe zone (ellipse test)
+      const dx = (x + 40 - safeCenterX) / safeRadiusX;
+      const dy = (y + 40 - safeCenterY) / safeRadiusY;
+      inSafeZone = (dx * dx + dy * dy) < 1;
+      attempts++;
+    } while (inSafeZone && attempts < 20);
+
+    const size = 50 + Math.random() * 60; // 50-110px
+    const palette = palettes[Math.floor(Math.random() * palettes.length)];
+    const delay = Math.random() * 2.8; // 0-2.8s
+
+    const rose = document.createElement('div');
+    rose.className = 'rose';
+    rose.style.left = x + 'px';
+    rose.style.top = y + 'px';
+    rose.style.width = size + 'px';
+    rose.style.height = size + 'px';
+    rose.style.animationDelay = delay + 's';
+    rose.innerHTML = roseSVG(palette.primary, palette.secondary, palette.center);
+    garden.appendChild(rose);
+
+    // After bloom animation finishes, add sway
+    setTimeout(() => {
+      rose.classList.add('bloomed');
+    }, (delay + 3) * 1000);
+  }
+
+  // Add sparkles
+  const sparkleCount = 15;
+  for (let i = 0; i < sparkleCount; i++) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = Math.random() * 100 + '%';
+    sparkle.style.top = Math.random() * 100 + '%';
+    sparkle.style.animationDelay = (Math.random() * 3) + 's';
+    document.body.appendChild(sparkle);
+  }
+</script>
+
+</body>
+</html>
